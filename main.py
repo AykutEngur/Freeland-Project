@@ -600,7 +600,8 @@ def send_message():
 
 def your_inbox():
     st.subheader("📬 Your Inbox")
-    my_cursor.execute("SELECT sender, message, created_at FROM messages WHERE receiver = %s ORDER BY created_at DESC", (st.session_state["username"],))
+    # Modify the query to fetch the latest 10 messages
+    my_cursor.execute("SELECT sender, message, created_at FROM messages WHERE receiver = %s ORDER BY created_at DESC LIMIT 10", (st.session_state["username"],))
     messages = my_cursor.fetchall()
     
     if messages:
@@ -609,6 +610,7 @@ def your_inbox():
             st.markdown(f"<p style='color: #58D68D;'><strong>{message[0]}:</strong> {message[1]} <br><em style='font-size: small; font-family: Arial;'>{timestamp}</em></p>", unsafe_allow_html=True)
     else:
         st.markdown("<p style='color: red; font-weight: bold;'>No messages in your inbox.</p>", unsafe_allow_html=True)
+
 
 
 
