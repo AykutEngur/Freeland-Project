@@ -178,6 +178,7 @@ def display_footer():
 
 
 
+display_footer()
 
 
 def registration_form():
