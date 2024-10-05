@@ -169,7 +169,7 @@ if "username" not in st.session_state:
 def display_footer():
     st.markdown(
         """
-        <div style='position: fixed; top: 10px; right: 10px; color: #4CAF50; font-size: 16px; z-index: 1000;'>
+        <div style='position: fixed; top: 20px; right: 20px; color: #4CAF50; font-size: 16px;'>
             Developed by <strong>Aykut Engür</strong>
         </div>
         """,
