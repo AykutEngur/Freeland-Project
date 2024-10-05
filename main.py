@@ -533,26 +533,25 @@ def display_about_freeland():
 
 def delete_message():
     st.subheader("🗑️ Delete Your Messages")
-    
-    
-    sql = "SELECT message_id, receiver, message FROM messages WHERE sender = %s"
+
+    # Fetch the latest 10 messages sent by the user
+    sql = "SELECT message_id, receiver, message FROM messages WHERE sender = %s ORDER BY created_at DESC LIMIT 10"
     my_cursor.execute(sql, (st.session_state["username"],))
     messages = my_cursor.fetchall()
 
     if messages:
         for message in messages:
             st.markdown(f'<span style="color: #58D68D;">ID: {message[0]}, To: {message[1]}, Message: {message[2]}</span>', unsafe_allow_html=True)
+
         message_number = st.number_input("Select the ID of the message you want to delete", min_value=1)
-        
+
         if st.button("Delete Message"):
-            message_ids_list = []
-            my_cursor.execute("SELECT * FROM messages")
-            records = my_cursor.fetchall()
-            for i in records:
-                message_ids_list.append(i[0])
+            # Fetch all message IDs to check if the selected one exists
+            my_cursor.execute("SELECT message_id FROM messages WHERE sender = %s", (st.session_state["username"],))
+            message_ids_list = [i[0] for i in my_cursor.fetchall()]
+
             if message_number not in message_ids_list:
                 st.markdown(f"<div style='color: red;'>No messages with the ID: {message_number}.</div>", unsafe_allow_html=True)
-                
             else:
                 delete_sql = "DELETE FROM messages WHERE message_id = %s AND sender = %s"
                 my_cursor.execute(delete_sql, (message_number, st.session_state["username"]))
@@ -562,6 +561,7 @@ def delete_message():
                 st.rerun()
     else:
         st.markdown("<div style='color: red;'>You have no messages to delete.</div>", unsafe_allow_html=True)
+
 
 
 
