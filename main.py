@@ -8,10 +8,10 @@ import pandas as pd
 
 
 mydb = mysql.connector.connect(
-    host=st.secrets["name_host"],
-    user=st.secrets["name_user"],
-    passwd=st.secrets["name_passwd"],
-    database=st.secrets["name_database"]
+    host=st.secrets["mysql"]["name_host"],
+    user=st.secrets["mysql"]["name_user"],
+    passwd=st.secrets["mysql"]["name_passwd"],
+    database=st.secrets["mysql"]["name_database"]
 )
 
 my_cursor = mydb.cursor()
