@@ -25,7 +25,7 @@ def get_base64_image(image_file):
         return base64.b64encode(image.read()).decode()
 
 
-image_base64 = get_base64_image("last_bg.png")
+image_base64 = get_base64_image("last_bng.png")
 st.markdown(
     f"""
     <style>
