@@ -182,7 +182,7 @@ def display_footer():
 
 def registration_form():
     with st.form(key="signup", clear_on_submit=True):
-        st.subheader("📋 Registration FORM")
+        st.subheader("📋 Registration Form")
         rg_username = st.text_input("Choose a Username")
         rg_email = st.text_input("Enter your Email")
         rg_password = st.text_input("Create a Password", type="password")
