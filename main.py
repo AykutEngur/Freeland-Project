@@ -251,22 +251,9 @@ def registration_form():
         
         
         if st.form_submit_button("Show License & User Agreement"):
-            st.markdown("""
-            ## License & User Agreement
-
-            By registering, you agree to the following terms:
-
-            - Your data is secure and private.
-            - We do not share your personal information with third parties without your consent.
-            - You can request to delete your data at any time.
-
-            ### Data Security
-            We take the security of your data seriously. All information is stored using industry-standard encryption.
-
-            ### Acceptance of Terms
-            By checking the box, you acknowledge that you have read and agree to these terms.
-            """)
+            license_agreement_page()
             st.rerun()
+            
     
         
 
