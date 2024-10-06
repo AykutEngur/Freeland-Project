@@ -224,8 +224,7 @@ def registration_form():
 
         # Checkbox for License & User Agreement
         agree = st.checkbox("I agree to the License & User Agreement")
-        if st.button("Learn About Data Security"):
-            st.session_state["show_security_info"] = True
+        register_button = st.form_submit_button("Register")
 
         st.markdown("<br>", unsafe_allow_html=True)
 
@@ -239,8 +238,10 @@ def registration_form():
         emails_list = [record[1] for record in records]
 
         if register_button:
+            if not agree:
+                st.markdown("<div class='stError'>You must agree to the License & User Agreement to register.</div>", unsafe_allow_html=True)
             # Check for required fields
-            if rg_username == "" or rg_email == "" or rg_password == "":
+            elif rg_username == "" or rg_email == "" or rg_password == "":
                 st.markdown("<div class='stError'>All fields are required</div>", unsafe_allow_html=True)
             elif rg_username in usernames_list:
                 st.markdown("<div class='stError'>This username is taken, please select another username</div>", unsafe_allow_html=True)
@@ -271,6 +272,8 @@ def registration_form():
                     time.sleep(0.04)
                 st.session_state["show_sign_in"] = True  
                 st.rerun()  # Refresh the app
+        if st.form_submit_button("Learn About Data Security"):
+            st.session_state["show_security_info"] = True
 
 
 
@@ -310,7 +313,6 @@ if st.session_state["show_security_info"]:
     security_info_page()
 else:
     registration_form()
-
 
 
 
