@@ -246,7 +246,7 @@ def registration_form():
         )
 
         # Checkbox for License & User Agreement
-        st.markdown("[Read our License & User Agreement](#)", unsafe_allow_html=True) 
+        
         agree = st.checkbox("I agree to the License & User Agreement")
         
         
@@ -266,6 +266,7 @@ def registration_form():
             ### Acceptance of Terms
             By checking the box, you acknowledge that you have read and agree to these terms.
             """)
+            st.rerun()
     
         
 
