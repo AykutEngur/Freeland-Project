@@ -191,6 +191,29 @@ def display_footer():
     )
 
 
+def license_agreement_page():
+    st.title("License & User Agreement")
+    
+    st.write("""
+    ## License & User Agreement
+
+    By registering, you agree to the following terms:
+    
+    - Your data is secure and private.
+    - We do not share your personal information with third parties without your consent.
+    - You can request to delete your data at any time.
+    
+    ### Data Security
+    We take the security of your data seriously. All information is stored using industry-standard encryption.
+
+    ### Acceptance of Terms
+    By clicking the checkbox during registration, you acknowledge that you have read and agree to these terms.
+    """)
+    
+    if st.button("Back to Registration"):
+        # Redirect to registration page
+        registration_form()  # Call your registration form function
+
 
 
 
@@ -223,7 +246,28 @@ def registration_form():
         )
 
         # Checkbox for License & User Agreement
+        st.markdown("[Read our License & User Agreement](#)", unsafe_allow_html=True) 
         agree = st.checkbox("I agree to the License & User Agreement")
+        
+        
+        if st.button("Show License & User Agreement"):
+            st.markdown("""
+            ## License & User Agreement
+
+            By registering, you agree to the following terms:
+
+            - Your data is secure and private.
+            - We do not share your personal information with third parties without your consent.
+            - You can request to delete your data at any time.
+
+            ### Data Security
+            We take the security of your data seriously. All information is stored using industry-standard encryption.
+
+            ### Acceptance of Terms
+            By checking the box, you acknowledge that you have read and agree to these terms.
+            """)
+    
+        
 
         st.markdown("<br>", unsafe_allow_html=True)
 
