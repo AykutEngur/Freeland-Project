@@ -250,7 +250,7 @@ def registration_form():
         agree = st.checkbox("I agree to the License & User Agreement")
         
         
-        if st.button("Show License & User Agreement"):
+        if st.form_submit_button("Show License & User Agreement"):
             st.markdown("""
             ## License & User Agreement
 
