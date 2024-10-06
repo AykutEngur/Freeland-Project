@@ -200,14 +200,17 @@ def display_footer():
 
 
 
+import streamlit as st
+import time
+
 def registration_form():
     with st.form(key="signup", clear_on_submit=True):
         st.subheader("📋 Registration Form")
         
         # User input fields
-        rg_username = st.text_input("Choose a Username")
-        rg_email = st.text_input("Enter your Email")
-        rg_password = st.text_input("Create a Password", type="password")
+        rg_username = st.text_input("Choose a Username", key="username_input")
+        rg_email = st.text_input("Enter your Email", key="email_input")
+        rg_password = st.text_input("Create a Password", type="password", key="password_input")
 
         # Define the password criteria
         criteria = [
@@ -216,31 +219,28 @@ def registration_form():
             "• At least one special character (e.g., ?@!#%+-*_.)"
         ]
         
-        # Display criteria with small font immediately after the password input
+        # Display criteria
         st.markdown(
             "<div style='font-size: 12px; color: gray;'>" + "<br>".join(criteria) + "</div>",
             unsafe_allow_html=True
         )
 
         # Checkbox for License & User Agreement
-        agree = st.checkbox("I agree to the License & User Agreement")
-        register_button = st.form_submit_button("Register")
-
-        st.markdown("<br>", unsafe_allow_html=True)
+        agree = st.checkbox("I agree to the License & User Agreement", key="agreement_checkbox")
 
         # Register button
         register_button = st.form_submit_button("Register")
 
-        # Your database check logic
-        my_cursor.execute("SELECT username, email FROM freeland_st_db")
-        records = my_cursor.fetchall()
-        usernames_list = [record[0] for record in records]
-        emails_list = [record[1] for record in records]
-
         if register_button:
+            # Your database check logic
+            my_cursor.execute("SELECT username, email FROM freeland_st_db")
+            records = my_cursor.fetchall()
+            usernames_list = [record[0] for record in records]
+            emails_list = [record[1] for record in records]
+
+            # Validation logic
             if not agree:
                 st.markdown("<div class='stError'>You must agree to the License & User Agreement to register.</div>", unsafe_allow_html=True)
-            # Check for required fields
             elif rg_username == "" or rg_email == "" or rg_password == "":
                 st.markdown("<div class='stError'>All fields are required</div>", unsafe_allow_html=True)
             elif rg_username in usernames_list:
@@ -256,8 +256,6 @@ def registration_form():
                 st.markdown("<div class='stError'>The password must include at least one uppercase letter</div>", unsafe_allow_html=True)
             elif not any(char in "?@!#%+-*_%." for char in rg_password):
                 st.markdown("<div class='stError'>The password must have at least one special character</div>", unsafe_allow_html=True)
-            elif not agree:  # Check if the user agreed to the terms
-                st.markdown("<div class='stError'>You must agree to the License & User Agreement to register.</div>", unsafe_allow_html=True)
             else:
                 # Insert into the database
                 sql = "INSERT INTO freeland_st_db (email, password, username) VALUES (%s, %s, %s)"
@@ -272,16 +270,10 @@ def registration_form():
                     time.sleep(0.04)
                 st.session_state["show_sign_in"] = True  
                 st.rerun()  # Refresh the app
-        if st.form_submit_button("Learn About Data Security", key="security_info_button"):
-            st.session_state["show_security_info"] = True
 
-
-
-
-
-
-
-
+    # Button to learn about data security
+    if st.button("Learn About Data Security", key="security_info_button"):
+        st.session_state["show_security_info"] = True
 
 
 def security_info_page():
@@ -302,8 +294,9 @@ def security_info_page():
     By using our services, you can trust that your data is well protected.
     """)
 
-    if st.form_submit_button("Back to Registration", key="back_to_registration_button"):
+    if st.button("Back to Registration", key="back_to_registration_button"):
         st.session_state["show_security_info"] = False
+
 
 # Main app logic
 if 'show_security_info' not in st.session_state:
