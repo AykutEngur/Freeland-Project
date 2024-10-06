@@ -229,6 +229,7 @@ def registration_form():
 
         # Register button
         register_button = st.form_submit_button("Register")
+        st.markdown("<br>", unsafe_allow_html=True)
 
         # Your database check logic
         my_cursor.execute("SELECT username, email FROM freeland_st_db")
