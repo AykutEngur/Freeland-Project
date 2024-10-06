@@ -525,7 +525,19 @@ def display_profile():
     col1, col2 = st.columns(2)
 
     with col1:
-        st.image("path/to/profile/photo.jpg", caption="Profile Photo", width=150)  # Replace with dynamic photo loading
+        # File uploader for profile photo
+        uploaded_file = st.file_uploader("Upload Profile Photo", type=["jpg", "jpeg", "png"])
+
+        if uploaded_file is not None:
+            # Display the uploaded photo
+            st.image(uploaded_file, caption="Profile Photo", width=150)
+            # Here you can add logic to save the uploaded file to your database or file system
+            # Example: save the file to the database as a binary or store the path
+
+        else:
+            st.write("No profile photo uploaded.")
+
+        # Bio input (You might want to fetch this from the database)
         bio = st.text_area("Bio", value="Short information about yourself")  # Replace with stored bio data
 
     # Right side for Latest Ideas
@@ -546,7 +558,7 @@ def display_profile():
                 idea_ids_list = [i[0] for i in ideas]  # List of IDs from the fetched ideas
 
                 if idea_id_to_delete not in idea_ids_list:
-                    st.markdown("<div style='color: red;'>No idea with the ID: {idea_id_to_delete}.</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='color: red;'>No idea with the ID: {idea_id_to_delete}.</div>", unsafe_allow_html=True)
                 else:
                     delete_sql = "DELETE FROM ideas WHERE idea_id = %s AND user = %s"
                     my_cursor.execute(delete_sql, (idea_id_to_delete, st.session_state["username"]))
