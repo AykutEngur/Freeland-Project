@@ -316,7 +316,7 @@ def sign_in_page():
 def post_idea():
     st.subheader("💡 Post an Idea")
     topic = st.selectbox("Select a Topic", ["Sports", "Films & TV Shows", "Music & Art"])
-    idea_text = st.text_area("Enter your idea here:", key='idea_text')
+    idea_text = st.text_area("Enter your idea here: ")
     
     if st.button("Submit Idea"):
         if idea_text:
@@ -325,7 +325,7 @@ def post_idea():
             my_cursor.execute(sql, values)
             mydb.commit()
             st.markdown("<div class='stSuccess'>Idea posted successfully</div>", unsafe_allow_html=True)
-            st.session_state.idea_text = ""
+
         else:
             st.markdown("<div class='stError'>Please enter an idea</div>", unsafe_allow_html=True)
 
