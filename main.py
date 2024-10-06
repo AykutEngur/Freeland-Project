@@ -224,6 +224,8 @@ def registration_form():
 
         # Checkbox for License & User Agreement
         agree = st.checkbox("I agree to the License & User Agreement")
+        if st.button("Learn About Data Security"):
+            st.session_state["show_security_info"] = True
 
         st.markdown("<br>", unsafe_allow_html=True)
 
@@ -269,6 +271,51 @@ def registration_form():
                     time.sleep(0.04)
                 st.session_state["show_sign_in"] = True  
                 st.rerun()  # Refresh the app
+
+
+
+
+
+
+
+
+
+
+def security_info_page():
+    st.title("Data Security Information")
+    
+    st.write("""
+    ## Your Data is Secure
+
+    We take your privacy seriously. Here's how we ensure your data is secure:
+
+    - **Encryption**: All sensitive data is encrypted both in transit and at rest.
+    - **Access Control**: We implement strict access controls to ensure that only authorized personnel can access your data.
+    - **Regular Audits**: Our security measures are regularly audited to ensure compliance with industry standards.
+    - **User Rights**: You have the right to access, modify, and delete your data at any time.
+
+    We do not share your personal information with third parties without your consent.
+    
+    By using our services, you can trust that your data is well protected.
+    """)
+
+    if st.button("Back to Registration"):
+        st.session_state["show_security_info"] = False
+
+# Main app logic
+if 'show_security_info' not in st.session_state:
+    st.session_state["show_security_info"] = False
+
+if st.session_state["show_security_info"]:
+    security_info_page()
+else:
+    registration_form()
+
+
+
+
+
+
 
 
 def sign_in_page():
