@@ -4,6 +4,9 @@ import time
 from streamlit_option_menu import option_menu
 import base64
 import pandas as pd
+import streamlit.components.v1 as components
+
+
 
 
 
@@ -152,14 +155,7 @@ st.markdown(
 )
 
 
-st.markdown(
-    """
-    <style>
-    footer {visibility: hidden;}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+
 
 
 
@@ -198,12 +194,30 @@ def display_footer():
 
 
 
+
+
+
+
+
+
 def registration_form():
     with st.form(key="signup", clear_on_submit=True):
         st.subheader("📋 Registration Form")
         rg_username = st.text_input("Choose a Username")
         rg_email = st.text_input("Enter your Email")
         rg_password = st.text_input("Create a Password", type="password")
+        # Define the password criteria
+        criteria = [
+            "• At least 8 characters",
+            "• At least one uppercase letter",
+            "• At least one special character (e.g., ?@!#%+-*_.)"
+        ]
+            # Display criteria with small font
+        st.markdown(
+    "<div style='font-size: 12px; color: gray;'>" + "<br>".join(criteria) + "</div>",
+    unsafe_allow_html=True
+)
+
         register_button = st.form_submit_button("Register")
         
        
@@ -219,7 +233,7 @@ def registration_form():
                 st.markdown("<div class='stError'>This username is taken, please select another username</div>", unsafe_allow_html=True)
             elif rg_email in emails_list:
                 st.markdown("<div class='stError'>This email already exists, please sign in or register with a different mail</div>", unsafe_allow_html=True)
-            elif not (rg_email.endswith("@gmail.com") or rg_email.endswith("@hotmail.com") or 
+            elif not (rg_email.endswith("@gmail.com") or rg_email.endswith("@hotmail.com") or rg_email.endswith(".com") or
             rg_email.endswith("@yahoo.com") or rg_email.endswith("@edu.tr")):
                 st.markdown("<div class='stError'>Please select a valid email address</div>", unsafe_allow_html=True)
             
