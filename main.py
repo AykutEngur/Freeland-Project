@@ -517,6 +517,55 @@ def filter_ideas():
 
 
 
+
+def display_profile():
+    st.subheader("👤 Your Profile")
+    
+    # Left side for Profile
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.image("path/to/profile/photo.jpg", caption="Profile Photo", width=150)  # Replace with dynamic photo loading
+        bio = st.text_area("Bio", value="Short information about yourself")  # Replace with stored bio data
+
+    # Right side for Latest Ideas
+    with col2:
+        st.subheader("💡 Latest Ideas")
+        # Fetch latest 10 ideas
+        sql = "SELECT idea_id, idea_text FROM ideas WHERE user = %s ORDER BY created_at DESC LIMIT 10"
+        my_cursor.execute(sql, (st.session_state["username"],))
+        ideas = my_cursor.fetchall()
+
+        if ideas:
+            for idea in ideas:
+                st.markdown(f'**ID:** {idea[0]}, **Idea:** {idea[1]}')
+
+            idea_id_to_delete = st.number_input("Select the ID of the idea you want to delete", min_value=1)
+
+            if st.button("Delete Idea"):
+                idea_ids_list = [i[0] for i in ideas]  # List of IDs from the fetched ideas
+
+                if idea_id_to_delete not in idea_ids_list:
+                    st.markdown("<div style='color: red;'>No idea with the ID: {idea_id_to_delete}.</div>", unsafe_allow_html=True)
+                else:
+                    delete_sql = "DELETE FROM ideas WHERE idea_id = %s AND user = %s"
+                    my_cursor.execute(delete_sql, (idea_id_to_delete, st.session_state["username"]))
+                    mydb.commit()
+                    st.markdown("<div class='stSuccess'>Idea deleted successfully!</div>", unsafe_allow_html=True)
+                    time.sleep(0.5)
+                    st.experimental_rerun()  # Refresh the page to update the list of ideas
+        else:
+            st.markdown("<div style='color: red;'>You have no ideas to delete.</div>", unsafe_allow_html=True)
+
+
+
+
+
+
+
+
+
+
 def display_ideas(ideas, filter_by_user=False):
     if ideas:
         for idea in ideas:
@@ -668,7 +717,7 @@ def home_page():
         st.sidebar.markdown(f"<h2 style='font-weight: bold; color: #58D68D;'>Welcome, {st.session_state['username']}!</h2>", unsafe_allow_html=True)
 
         selected = option_menu("Home Page", 
-                       ["See All Ideas", "Post Ideas", "See Your Ideas", "Delete Your Ideas", "Filter Ideas", "Most Popular Ideas", "Contact with Freelanders", "Your Inbox", "About Freeland"],
+                       ["See All Ideas", "Post Ideas", "See Your Ideas", "Your Profile", "Filter Ideas", "Most Popular Ideas", "Contact with Freelanders", "Your Inbox", "About Freeland"],
                        icons=['eye', 'pencil', 'book', 'trash', 'filter', 'star', 'envelope', 'info'], 
                        menu_icon="cast", 
                        default_index=0,
@@ -682,10 +731,8 @@ def home_page():
         see_all_ideas()
     elif selected == "Post Ideas":
         post_idea()
-    elif selected == "See Your Ideas":
-        see_your_ideas()
-    elif selected == "Delete Your Ideas":
-        delete_your_idea()
+    elif selected == "Your Profile":
+        display_profile()
     elif selected == "Filter Ideas":
         filter_ideas()
     elif selected == "Most Popular Ideas":
