@@ -221,7 +221,7 @@ def registration_form():
             "<div style='font-size: 12px; color: gray;'>" + "<br>".join(criteria) + "</div>",
             unsafe_allow_html=True
         )
-
+        st.markdown("<br>", unsafe_allow_html=True)
         # Checkbox for License & User Agreement
         agree = st.checkbox("I agree to the License & User Agreement")
 
