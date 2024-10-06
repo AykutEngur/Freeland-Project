@@ -207,6 +207,10 @@ def registration_form():
         rg_email = st.text_input("Enter your Email")
         rg_password = st.text_input("Create a Password", type="password")
         
+        
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        
         # Define the password criteria
         criteria = [
             "• At least 8 characters",
