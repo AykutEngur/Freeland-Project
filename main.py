@@ -191,28 +191,7 @@ def display_footer():
     )
 
 
-def license_agreement_page():
-    st.title("License & User Agreement")
-    
-    st.write("""
-    ## License & User Agreement
 
-    By registering, you agree to the following terms:
-    
-    - Your data is secure and private.
-    - We do not share your personal information with third parties without your consent.
-    - You can request to delete your data at any time.
-    
-    ### Data Security
-    We take the security of your data seriously. All information is stored using industry-standard encryption.
-
-    ### Acceptance of Terms
-    By clicking the checkbox during registration, you acknowledge that you have read and agree to these terms.
-    """)
-    
-    if st.button("Back to Registration"):
-        # Redirect to registration page
-        registration_form()  # Call your registration form function
 
 
 
@@ -251,6 +230,7 @@ def registration_form():
         
         
         if st.form_submit_button("Show License & User Agreement"):
+            st.session_state["show_agreement"] = True
             license_agreement_page()
             st.rerun()
             
@@ -301,6 +281,46 @@ def registration_form():
                     time.sleep(0.04)
                 st.session_state["show_sign_in"] = True  
                 st.rerun()  # Refresh the app
+
+
+
+
+def license_agreement_page():
+    st.title("License & User Agreement")
+    
+    st.write("""
+    ## License & User Agreement
+
+    By registering, you agree to the following terms:
+    
+    - Your data is secure and private.
+    - We do not share your personal information with third parties without your consent.
+    - You can request to delete your data at any time.
+
+    ### Data Security
+    We take the security of your data seriously. All information is stored using industry-standard encryption.
+
+    ### Acceptance of Terms
+    By clicking the checkbox during registration, you acknowledge that you have read and agree to these terms.
+    """)
+
+    if st.button("Back to Registration"):
+        st.session_state["show_agreement"] = False
+
+# Main app logic
+if 'show_agreement' not in st.session_state:
+    st.session_state["show_agreement"] = False
+
+if st.session_state["show_agreement"]:
+    license_agreement_page()
+else:
+    registration_form()
+
+
+
+
+
+
 
 
 def sign_in_page():
