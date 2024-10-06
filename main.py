@@ -272,7 +272,7 @@ def registration_form():
                     time.sleep(0.04)
                 st.session_state["show_sign_in"] = True  
                 st.rerun()  # Refresh the app
-        if st.form_submit_button("Learn About Data Security"):
+        if st.form_submit_button("Learn About Data Security", key="security_info_button"):
             st.session_state["show_security_info"] = True
 
 
@@ -302,7 +302,7 @@ def security_info_page():
     By using our services, you can trust that your data is well protected.
     """)
 
-    if st.button("Back to Registration"):
+    if st.form_submit_button("Back to Registration", key="back_to_registration_button"):
         st.session_state["show_security_info"] = False
 
 # Main app logic
