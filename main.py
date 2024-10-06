@@ -206,21 +206,24 @@ def registration_form():
         rg_username = st.text_input("Choose a Username")
         rg_email = st.text_input("Enter your Email")
         rg_password = st.text_input("Create a Password", type="password")
+        
         # Define the password criteria
         criteria = [
             "• At least 8 characters",
             "• At least one uppercase letter",
             "• At least one special character (e.g., ?@!#%+-*_.)"
         ]
-            # Display criteria with small font
-        st.markdown(
-    "<div style='font-size: 12px; color: gray;'>" + "<br>".join(criteria) + "</div>",
-    unsafe_allow_html=True
-)
-
-        register_button = st.form_submit_button("Register")
         
-       
+        # Display criteria with small font immediately after the password input
+        st.markdown(
+            "<div style='font-size: 12px; color: gray;'>" + "<br>".join(criteria) + "</div>",
+            unsafe_allow_html=True
+        )
+
+        # Register button
+        register_button = st.form_submit_button("Register")
+
+        # Your database check logic
         my_cursor.execute("SELECT username, email FROM freeland_st_db")
         records = my_cursor.fetchall()
         usernames_list = [record[0] for record in records]
@@ -234,9 +237,8 @@ def registration_form():
             elif rg_email in emails_list:
                 st.markdown("<div class='stError'>This email already exists, please sign in or register with a different mail</div>", unsafe_allow_html=True)
             elif not (rg_email.endswith("@gmail.com") or rg_email.endswith("@hotmail.com") or rg_email.endswith(".com") or
-            rg_email.endswith("@yahoo.com") or rg_email.endswith("@edu.tr")):
+                      rg_email.endswith("@yahoo.com") or rg_email.endswith("@edu.tr")):
                 st.markdown("<div class='stError'>Please select a valid email address</div>", unsafe_allow_html=True)
-            
             elif len(rg_password) < 8:
                 st.markdown("<div class='stError'>The password must include at least 8 characters</div>", unsafe_allow_html=True)
             elif not any(char.isupper() for char in rg_password):
