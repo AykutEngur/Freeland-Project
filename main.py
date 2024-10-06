@@ -564,7 +564,7 @@ def display_about_freeland():
             <a href='https://www.instagram.com/freeland_app?igsh=MXVwZTFkd2JqeWJ6bQ==' target='_blank'>
                 <img src='https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png' alt='Instagram' style='width: 50px; height: 50px; margin-right: 10px;'/>
             </a>
-            <span style='font-size: 18px;>For the latest updates and news about the app, <strong>follow us on Instagram!</strong></span>
+            <span style='font-size: 18px;'>For the latest updates and news about the app, <strong>follow us on Instagram!</strong></span>
         </div>
         </div>
         """,
