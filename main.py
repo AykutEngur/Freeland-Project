@@ -203,12 +203,12 @@ def display_footer():
 def registration_form():
     with st.form(key="signup", clear_on_submit=True):
         st.subheader("📋 Registration Form")
+        
+        # User input fields
         rg_username = st.text_input("Choose a Username")
         rg_email = st.text_input("Enter your Email")
         rg_password = st.text_input("Create a Password", type="password")
-        
-        
-        
+
         # Define the password criteria
         criteria = [
             "• At least 8 characters",
@@ -222,7 +222,11 @@ def registration_form():
             unsafe_allow_html=True
         )
 
+        # Checkbox for License & User Agreement
+        agree = st.checkbox("I agree to the License & User Agreement")
+
         st.markdown("<br>", unsafe_allow_html=True)
+
         # Register button
         register_button = st.form_submit_button("Register")
 
@@ -233,6 +237,7 @@ def registration_form():
         emails_list = [record[1] for record in records]
 
         if register_button:
+            # Check for required fields
             if rg_username == "" or rg_email == "" or rg_password == "":
                 st.markdown("<div class='stError'>All fields are required</div>", unsafe_allow_html=True)
             elif rg_username in usernames_list:
@@ -248,20 +253,23 @@ def registration_form():
                 st.markdown("<div class='stError'>The password must include at least one uppercase letter</div>", unsafe_allow_html=True)
             elif not any(char in "?@!#%+-*_%." for char in rg_password):
                 st.markdown("<div class='stError'>The password must have at least one special character</div>", unsafe_allow_html=True)
+            elif not agree:  # Check if the user agreed to the terms
+                st.markdown("<div class='stError'>You must agree to the License & User Agreement to register.</div>", unsafe_allow_html=True)
             else:
+                # Insert into the database
                 sql = "INSERT INTO freeland_st_db (email, password, username) VALUES (%s, %s, %s)"
                 values = (rg_email, rg_password, rg_username)
                 my_cursor.execute(sql, values)
                 mydb.commit()
-                st.markdown("<div class = 'stSuccess'>Registration Successful! Directing to the Sign In page...</div>", unsafe_allow_html=True)
+                st.markdown("<div class='stSuccess'>Registration Successful! Directing to the Sign In page...</div>", unsafe_allow_html=True)
                 progress_bar = st.progress(0)
 
-                
                 for i in range(1, 50):
                     progress_bar.progress(i)
                     time.sleep(0.04)
                 st.session_state["show_sign_in"] = True  
                 st.rerun()  # Refresh the app
+
 
 def sign_in_page():
     st.subheader("🔑 Sign In")
