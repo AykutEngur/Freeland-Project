@@ -223,7 +223,7 @@ def registration_form():
         )
 
         # Checkbox for License & User Agreement
-        agree = st.checkbox("I agree to the License & User Agreement Your privacy is important to us. We ensure that your data is handled securely.")
+        agree = st.checkbox("I agree to the License & User Agreement \n Your privacy is important to us. \n We ensure that your data is handled securely.")
 
         st.markdown("<br>", unsafe_allow_html=True)
 
