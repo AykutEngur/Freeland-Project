@@ -208,8 +208,6 @@ def registration_form():
         rg_password = st.text_input("Create a Password", type="password")
         
         
-        st.markdown("<br>", unsafe_allow_html=True)
-        
         
         # Define the password criteria
         criteria = [
@@ -224,6 +222,7 @@ def registration_form():
             unsafe_allow_html=True
         )
 
+        st.markdown("<br>", unsafe_allow_html=True)
         # Register button
         register_button = st.form_submit_button("Register")
 
