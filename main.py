@@ -718,7 +718,48 @@ def display_your_profile():
 
 
 
+def search_freelanders():
+    col1, col2 = st.columns(2)
+    username = st.session_state["username"]
+    my_cursor.execute("SELECT DISTINCT username FROM freeland_ideas_table")
+    users = my_cursor.fetchall()
+    usernames = [user[0] for user in users]
+    selected_profile = st.selectbox("Select the User Profile you wanna inspect🔎", usernames)
+    
+    if st.button("Search Profile"):
+        my_cursor.execute("SELECT bio FROM freeland_st_db WHERE username = %s", (username,))
+        bio = my_cursor.fetchone()
+        my_cursor.execute("SELECT ideas, created_at FROM freeland_ideas_table WHERE username = %s ORDER BY created_at DESC LIMIT 10", (st.session_state["username"],))
+        ideas = my_cursor.fetchall()
+        with col1:
+            if bio and bio[0]:
+                st.markdown(f"<h3 style='color: #58D68D;'>{bio[0]}</h3>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"<h3 style='color: #58D68D;'>No bio yet!</h3>", unsafe_allow_html=True)
+                
+            
+        
+        
+        
+        
+        
+        
+        
+        
+        with col2:
+            if ideas:
+                for idea in ideas:
+                    timestamp = idea[1].strftime("%d %B %Y, %H:%M")  # Updated format
+                    st.markdown(f"<p style='color: #58D68D;'><strong>- {idea[0]}</strong> <br><em style='font-size: small; font-family: Arial;'>{timestamp}</em></p>", unsafe_allow_html=True)
 
+            # If there are exactly 10 ideas, display the message to visit the filter page
+            if len(ideas) == 10:
+                st.markdown("<p style='color: green; font-size: 20px; text-align: center;'><strong>To read older posts, please visit the Filter Ideas page.</strong></p>", unsafe_allow_html=True)
+
+            else:
+                st.markdown("<p style='color: red; font-size: 24px; font-weight: bold;'>No ideas posted yet.</p>", unsafe_allow_html=True)
+        
+        
 
 
 
@@ -780,8 +821,8 @@ def home_page():
         st.sidebar.markdown(f"<h2 style='font-weight: bold; color: #58D68D;'>Welcome, {st.session_state['username']}!</h2>", unsafe_allow_html=True)
 
         selected = option_menu("Home Page", 
-                       ["See All Ideas", "Post Ideas","Your Profile", "Filter Ideas", "Most Popular Ideas", "Contact with Freelanders", "Your Inbox", "About Freeland"],
-                       icons=['eye', 'pencil', 'house' ,'filter', 'star', 'envelope', 'info'], 
+                       ["See All Ideas", "Post Ideas","Filter Ideas", "Most Popular Ideas", "Contact with Freelanders", "Your Inbox", "Your Profile","Search Freelanders","About Freeland"],
+                       icons=['eye', 'pencil','filter', 'star', 'envelope', 'house' ,'info' 'info'], 
                        menu_icon="cast", 
                        default_index=0,
                        styles={
@@ -800,6 +841,8 @@ def home_page():
             display_your_profile()
         with col2:
             delete_idea_profile()
+    elif selected == "Search Freelanders":
+        search_freelanders()
     elif selected == "Filter Ideas":
         filter_ideas()
     elif selected == "Most Popular Ideas":
