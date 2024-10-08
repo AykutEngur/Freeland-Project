@@ -750,9 +750,9 @@ def search_freelanders():
                 st.markdown("<p style='color: green; font-size: 20px; text-align: center;'><strong>To read older posts, please visit the Filter Ideas page.</strong></p>", unsafe_allow_html=True)
 
             else:
+                st.subheader(f"{selected_profile}' Ideas")
                 for idea in ideas:
                     timestamp = idea[1].strftime("%d %B %Y, %H:%M")  # Updated format
-                    st.subheader(f"{selected_profile}' Ideas")
                     st.markdown(f"<p style='color: #58D68D;'><strong>- {idea[0]}</strong> <br><em style='font-size: small; font-family: Arial;'>{timestamp}</em></p>", unsafe_allow_html=True)
         
         
