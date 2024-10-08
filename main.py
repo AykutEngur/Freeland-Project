@@ -687,15 +687,16 @@ def your_inbox():
 def display_your_profile():
     st.subheader("Your Profile")
     username = st.session_state["username"]
+    
+    # Fetch the current bio from the database
     my_cursor.execute("SELECT bio FROM freeland_st_db WHERE username = %s", (username,))
     bio = my_cursor.fetchone()
+
+    # Display the bio with custom styling
     if bio and bio[0]:
-        st.write("Your Bio:")
-        st.write(bio[0])
-        # Text area for updating bio
+        st.markdown(f"<h3 style='color: #58D68D;'>{bio[0]}</h3>", unsafe_allow_html=True)
         new_bio = st.text_area("Update Bio:", value=bio[0])
     else:
-        # Text area for adding new bio
         new_bio = st.text_area("Add Bio:")
 
     # Button to submit bio
@@ -707,9 +708,11 @@ def display_your_profile():
                 st.success("Bio updated successfully!")
             else:
                 # Insert new bio
-                my_cursor.execute("INSERT INTO freeland_st_db (username, bio) VALUES (%s, %s)", (username, new_bio))
+                my_cursor.execute("INSERT INTO frealand_st_db (username, bio) VALUES (%s, %s)", (username, new_bio))
                 st.success("Bio added successfully!")
             mydb.commit()
+            # Refresh the page to show updated bio
+            st.rerun()
         else:
             st.warning("Please enter some information to save as your bio.")
 
