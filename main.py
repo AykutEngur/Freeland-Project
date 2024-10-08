@@ -585,7 +585,7 @@ def display_about_freeland():
 
         At Freeland, we believe in the power of ideas. Whether you're passionate about sports, films, music, or art, you can post your thoughts, gather feedback, and inspire others. Users can easily like or dislike ideas, fostering a community-driven approach to innovation.
 
-        This project was developed by <strong>Aykut Engür</strong>, a computer science student. Join us in our journey to create a vibrant community of thinkers and dreamers. Together, let’s bring new ideas to life yess baby!
+        This project was developed by <strong>Aykut Engür</strong>, a computer science student. Join us in our journey to create a vibrant community of thinkers and dreamers. Together, let’s bring new ideas to life!
 
         <div style='margin-top: 30px;'>
             <a href='https://www.instagram.com/freeland_app?igsh=MXVwZTFkd2JqeWJ6bQ==' target='_blank'>
