@@ -683,23 +683,7 @@ def your_inbox():
             st.markdown(f"<p style='color: #58D68D;'><strong>{message[0]}:</strong> {message[1]} <br><em style='font-size: small; font-family: Arial;'>{timestamp}</em></p>", unsafe_allow_html=True)
     else:
         st.markdown("<p style='color: red; font-weight: bold;'>No messages in your inbox.</p>", unsafe_allow_html=True)
-        
-        
-def display_your_profile():
-    st.title("Your Profile")      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
 
 
 
@@ -711,8 +695,8 @@ def home_page():
         st.sidebar.markdown(f"<h2 style='font-weight: bold; color: #58D68D;'>Welcome, {st.session_state['username']}!</h2>", unsafe_allow_html=True)
 
         selected = option_menu("Home Page", 
-                       ["See All Ideas", "Post Ideas", "Your Profile", "Filter Ideas", "Most Popular Ideas", "Contact with Freelanders", "Your Inbox", "About Freeland"],
-                       icons=['eye', 'pencil', 'house' ,'filter', 'star', 'envelope', 'info'], 
+                       ["See All Ideas", "Post Ideas", "See Your Ideas", "Delete Your Ideas", "Filter Ideas", "Most Popular Ideas", "Contact with Freelanders", "Your Inbox", "About Freeland"],
+                       icons=['eye', 'pencil', 'book', 'trash', 'filter', 'star', 'envelope', 'info'], 
                        menu_icon="cast", 
                        default_index=0,
                        styles={
@@ -725,12 +709,10 @@ def home_page():
         see_all_ideas()
     elif selected == "Post Ideas":
         post_idea()
-    elif selected == "Your Profile":
-        col1, col2 = st.columns(2)
-        with col1:
-            display_your_profile()
-        with col2:
-            delete_your_idea()
+    elif selected == "See Your Ideas":
+        see_your_ideas()
+    elif selected == "Delete Your Ideas":
+        delete_your_idea()
     elif selected == "Filter Ideas":
         filter_ideas()
     elif selected == "Most Popular Ideas":
