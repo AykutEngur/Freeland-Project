@@ -685,7 +685,43 @@ def your_inbox():
 
 
 def display_your_profile():
-    st.title("Your Profile")
+    st.subheader("Your Profile")
+    username = st.session_state["username"]
+    my_cursor.execute("SELECT bio FROM freealand_st_db WHERE username = %s", (username,))
+    bio = my_cursor.fetchone()
+    if bio and bio[0]:
+        st.write("Your Bio:")
+        st.write(bio[0])
+        # Text area for updating bio
+        new_bio = st.text_area("Update Bio:", value=bio[0])
+    else:
+        # Text area for adding new bio
+        new_bio = st.text_area("Add Bio:")
+
+    # Button to submit bio
+    if st.button("Submit Bio"):
+        if new_bio:
+            if bio:
+                # Update existing bio
+                my_cursor.execute("UPDATE freealand_st_db SET bio = %s WHERE username = %s", (new_bio, username))
+                st.success("Bio updated successfully!")
+            else:
+                # Insert new bio
+                my_cursor.execute("INSERT INTO freealand_st_db (username, bio) VALUES (%s, %s)", (username, new_bio))
+                st.success("Bio added successfully!")
+            mydb.commit()
+        else:
+            st.warning("Please enter some information to save as your bio.")
+
+
+
+
+
+
+
+
+
+
 
 
 def delete_idea_profile():
