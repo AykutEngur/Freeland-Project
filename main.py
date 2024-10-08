@@ -20,8 +20,6 @@ mydb = mysql.connector.connect(
 my_cursor = mydb.cursor()
 
 st.set_page_config(page_title="Freeland", page_icon="📝", layout="wide")
-my_cursor.execute("ALTER TABLE freeland_st_db ADD COLUMN IF NOT EXISTS bio VARCHAR(255);")
-mydb.commit()
 
 
 def get_base64_image(image_file):
