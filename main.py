@@ -18,8 +18,7 @@ mydb = mysql.connector.connect(
 )
 
 my_cursor = mydb.cursor()
-my_cursor.execute("ALTER TABLE freeland_st_db ADD COLUMN bio VARCHAR(255);")
-mydb.commit()
+
 st.set_page_config(page_title="Freeland", page_icon="📝", layout="wide")
 
 
