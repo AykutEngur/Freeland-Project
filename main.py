@@ -816,7 +816,7 @@ def home_page():
 
         selected = option_menu("Home Page", 
                        ["See All Ideas", "Post Ideas","Filter Ideas", "Most Popular Ideas", "Contact with Freelanders", "Your Inbox", "Your Profile","Search Freelanders","About Freeland"],
-                       icons=['eye', 'pencil','filter', 'star', 'envelope', 'bell','user','search', 'info'], 
+                       icons=['eye', 'pencil','filter', 'star', 'envelope', 'bell','person','search', 'info'], 
                        menu_icon="cast", 
                        default_index=0,
                        styles={
