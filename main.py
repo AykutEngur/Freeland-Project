@@ -738,7 +738,8 @@ def search_freelanders():
                 st.markdown(f"<h3 style='color: #58D68D;'>No bio yet!</h3>", unsafe_allow_html=True)
                 
         with col2:
-            if ideas:
+            if not ideas:
+                st.markdown("<p style='color: red; font-size: 24px; font-weight: bold;'>No ideas posted yet.</p>", unsafe_allow_html=True)
                 for idea in ideas:
                     timestamp = idea[1].strftime("%d %B %Y, %H:%M")  # Updated format
                     st.markdown(f"<p style='color: #58D68D;'><strong>- {idea[0]}</strong> <br><em style='font-size: small; font-family: Arial;'>{timestamp}</em></p>", unsafe_allow_html=True)
@@ -748,7 +749,9 @@ def search_freelanders():
                 st.markdown("<p style='color: green; font-size: 20px; text-align: center;'><strong>To read older posts, please visit the Filter Ideas page.</strong></p>", unsafe_allow_html=True)
 
             else:
-                st.markdown("<p style='color: red; font-size: 24px; font-weight: bold;'>No ideas posted yet.</p>", unsafe_allow_html=True)
+                for idea in ideas:
+                    timestamp = idea[1].strftime("%d %B %Y, %H:%M")  # Updated format
+                    st.markdown(f"<p style='color: #58D68D;'><strong>- {idea[0]}</strong> <br><em style='font-size: small; font-family: Arial;'>{timestamp}</em></p>", unsafe_allow_html=True)
         
         
 
@@ -813,7 +816,7 @@ def home_page():
 
         selected = option_menu("Home Page", 
                        ["See All Ideas", "Post Ideas","Filter Ideas", "Most Popular Ideas", "Contact with Freelanders", "Your Inbox", "Your Profile","Search Freelanders","About Freeland"],
-                       icons=['eye', 'pencil','filter', 'star', 'envelope', 'house' ,'info' 'info'], 
+                       icons=['eye', 'pencil','filter', 'star', 'envelope', 'house' ,'info', 'info'], 
                        menu_icon="cast", 
                        default_index=0,
                        styles={
