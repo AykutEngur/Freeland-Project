@@ -687,7 +687,7 @@ def your_inbox():
 def display_your_profile():
     st.subheader("Your Profile")
     username = st.session_state["username"]
-    my_cursor.execute("SELECT bio FROM freealand_st_db WHERE username = %s", (username,))
+    my_cursor.execute("SELECT bio FROM freeland_st_db WHERE username = %s", (username,))
     bio = my_cursor.fetchone()
     if bio and bio[0]:
         st.write("Your Bio:")
@@ -703,11 +703,11 @@ def display_your_profile():
         if new_bio:
             if bio:
                 # Update existing bio
-                my_cursor.execute("UPDATE freealand_st_db SET bio = %s WHERE username = %s", (new_bio, username))
+                my_cursor.execute("UPDATE freeland_st_db SET bio = %s WHERE username = %s", (new_bio, username))
                 st.success("Bio updated successfully!")
             else:
                 # Insert new bio
-                my_cursor.execute("INSERT INTO freealand_st_db (username, bio) VALUES (%s, %s)", (username, new_bio))
+                my_cursor.execute("INSERT INTO freeland_st_db (username, bio) VALUES (%s, %s)", (username, new_bio))
                 st.success("Bio added successfully!")
             mydb.commit()
         else:
