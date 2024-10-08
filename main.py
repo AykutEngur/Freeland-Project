@@ -22,8 +22,6 @@ my_cursor = mydb.cursor()
 st.set_page_config(page_title="Freeland", page_icon="📝", layout="wide")
 
 
-my_cursor.execute("ALTER TABLE freeland_st_db DROP COLUMN bio")
-mydb.commit()
 
 def get_base64_image(image_file):
     with open(image_file, "rb") as image:
