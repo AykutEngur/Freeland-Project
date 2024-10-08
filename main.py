@@ -733,9 +733,10 @@ def search_freelanders():
         ideas = my_cursor.fetchall()
         with col1:
             if bio and bio[0]:
+                st.subheader(f"{selected_user}' Bio")
                 st.markdown(f"<h3 style='color: #58D68D;'>{bio[0]}</h3>", unsafe_allow_html=True)
             else:
-                st.markdown(f"<h3 style='color: #58D68D;'>No bio yet!</h3>", unsafe_allow_html=True)
+                st.markdown(f"<h3 style='color: red;'>No bio yet!</h3>", unsafe_allow_html=True)
                 
         with col2:
             if not ideas:
@@ -751,6 +752,7 @@ def search_freelanders():
             else:
                 for idea in ideas:
                     timestamp = idea[1].strftime("%d %B %Y, %H:%M")  # Updated format
+                    st.subheader(f"{selected_user}' Ideas")
                     st.markdown(f"<p style='color: #58D68D;'><strong>- {idea[0]}</strong> <br><em style='font-size: small; font-family: Arial;'>{timestamp}</em></p>", unsafe_allow_html=True)
         
         
