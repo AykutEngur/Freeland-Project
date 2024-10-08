@@ -727,9 +727,9 @@ def search_freelanders():
     selected_profile = st.selectbox("Select the User Profile you wanna inspect🔎", usernames)
     
     if st.button("Search Profile"):
-        my_cursor.execute("SELECT bio FROM freeland_st_db WHERE username = %s", (username,))
+        my_cursor.execute("SELECT bio FROM freeland_st_db WHERE username = %s", (selected_profile,))
         bio = my_cursor.fetchone()
-        my_cursor.execute("SELECT ideas, created_at FROM freeland_ideas_table WHERE username = %s ORDER BY created_at DESC LIMIT 10", (st.session_state["username"],))
+        my_cursor.execute("SELECT ideas, created_at FROM freeland_ideas_table WHERE username = %s ORDER BY created_at DESC LIMIT 10", (selected_profile,))
         ideas = my_cursor.fetchall()
         with col1:
             if bio and bio[0]:
@@ -737,15 +737,6 @@ def search_freelanders():
             else:
                 st.markdown(f"<h3 style='color: #58D68D;'>No bio yet!</h3>", unsafe_allow_html=True)
                 
-            
-        
-        
-        
-        
-        
-        
-        
-        
         with col2:
             if ideas:
                 for idea in ideas:
