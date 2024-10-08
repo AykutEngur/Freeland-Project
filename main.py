@@ -685,6 +685,53 @@ def your_inbox():
         st.markdown("<p style='color: red; font-weight: bold;'>No messages in your inbox.</p>", unsafe_allow_html=True)
 
 
+def display_your_profile():
+    st.title("Your Profile")
+
+
+def delete_idea_profile():
+    st.subheader("🗑️ Delete Your Idea")
+        
+        # Fetch the latest 10 ideas from the logged-in user
+    my_cursor.execute("SELECT ideas, user_id FROM freeland_ideas_table WHERE username = %s ORDER BY created_at DESC LIMIT 10", (st.session_state["username"],))
+    my_ideas = my_cursor.fetchall()
+        
+    if my_ideas:
+        for i in my_ideas:
+            st.markdown(f"<p style='color: #58D68D'><strong>- {i[0]} (IDEA NUMBER: {i[1]})</strong></p>", unsafe_allow_html=True)
+    else:
+        st.markdown("<span style='color:red;'>You haven't posted any ideas yet.</span>", unsafe_allow_html=True)
+    selected_id_number = st.number_input(
+        label="Enter the ID of the idea to delete:",
+        min_value=0,
+        step=1,
+        format="%d",
+        help="Enter the idea number you want to delete."
+    )
+    id_submit_button = st.button("Delete idea")
+    
+    if id_submit_button:
+        # Check if the idea exists for the user
+        my_cursor.execute("SELECT ideas FROM freeland_ideas_table WHERE user_id = %s AND username = %s", (selected_id_number, st.session_state["username"]))
+        idea_check = my_cursor.fetchone()
+
+        if idea_check:
+            # Delete any votes associated with the idea
+            my_cursor.execute("DELETE FROM user_votes WHERE idea_id = %s", (selected_id_number,))
+            # Delete the idea itself
+            my_cursor.execute("DELETE FROM freeland_ideas_table WHERE user_id = %s", (selected_id_number,))
+            mydb.commit()  # Commit the changes
+            st.success("Idea successfully deleted")
+            time.sleep(0.7)
+            st.rerun()
+        else:
+            st.markdown(f"<p style='color: red; font-size: 24px; font-weight: bold; text-align: center;'><strong>No idea found with ID: {selected_id_number}</strong></p>", unsafe_allow_html=True)
+
+
+    if len(my_ideas) == 10:
+        st.markdown("<p style='color: green; font-size: 20px; text-align: center;'><strong>To read older ideas, please visit the Filter Ideas page.</strong></p>", unsafe_allow_html=True)
+
+
 
 
 
@@ -695,8 +742,8 @@ def home_page():
         st.sidebar.markdown(f"<h2 style='font-weight: bold; color: #58D68D;'>Welcome, {st.session_state['username']}!</h2>", unsafe_allow_html=True)
 
         selected = option_menu("Home Page", 
-                       ["See All Ideas", "Post Ideas", "See Your Ideas", "Delete Your Ideas", "Filter Ideas", "Most Popular Ideas", "Contact with Freelanders", "Your Inbox", "About Freeland"],
-                       icons=['eye', 'pencil', 'book', 'trash', 'filter', 'star', 'envelope', 'info'], 
+                       ["See All Ideas", "Post Ideas","Your Profile", "Filter Ideas", "Most Popular Ideas", "Contact with Freelanders", "Your Inbox", "About Freeland"],
+                       icons=['eye', 'pencil', 'house' ,'filter', 'star', 'envelope', 'info'], 
                        menu_icon="cast", 
                        default_index=0,
                        styles={
@@ -709,10 +756,12 @@ def home_page():
         see_all_ideas()
     elif selected == "Post Ideas":
         post_idea()
-    elif selected == "See Your Ideas":
-        see_your_ideas()
-    elif selected == "Delete Your Ideas":
-        delete_your_idea()
+    elif selected == "Your Profile":
+        col1, col2 = st.columns(2)
+        with col1:
+            display_your_profile()
+        with col2:
+            delete_idea_profile()
     elif selected == "Filter Ideas":
         filter_ideas()
     elif selected == "Most Popular Ideas":
@@ -757,7 +806,7 @@ else:
         elif option == "Register":
             registration_form()
             display_footer()
-            
+       
             
             
 
